@@ -1,24 +1,28 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
 
 class App extends Component {
+  state = {
+    result: {},
+  };
+  fetch = async () => {
+    const url = "http://localhost:1234/test";
+    const options = {
+      method: "POST",
+      mode: "cors",
+      credentials: "include",
+    };
+    const response = await fetch(url, options);
+    const json = await response.json();
+
+    this.setState({ result: json });
+  };
   render() {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+          <div>{JSON.stringify(this.state.result)}</div>
+          <button onClick={this.fetch}>Fetch()</button>
         </header>
       </div>
     );
